@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Movie App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="search-bar py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control bg-transparent border-0 border-bottom rounded-0 text-white" placeholder="get movies by word ...." id="searchWord">
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control bg-transparent border-0 border-bottom rounded-0 text-white" placeholder="search....">
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="content">
+        <div class="container">
+            <div class="row mt-5" id="movies">
+               
+            </div>
+        </div>
+        
+    </div>
+
+    <section class="contact py-5"  id="contact">
+        <div class="container">
+            <h2 class="text-white mb-5">ContacUs...</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <input id="uName" type="text" placeholder="Enter Your Name" class="form-control bg-transparent border-0 border-bottom rounded-0 text-white">
+                        <div class="alert" id="nameAlert">
+                                Your Name is not valid
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <input id="uEmail" type="email" placeholder="Enter Email" class="form-control bg-transparent border-0 border-bottom rounded-0 text-white">
+                        <div class="alert" id="emailAlert">
+                            entre valid email
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <input id="uPhone" type="number" placeholder="Enter Phone" class="form-control bg-transparent border-0 border-bottom rounded-0 text-white">
+                        <div class="alert" id="phoneAlert">
+                            entre valid phone
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <input id="uAge" type="number" placeholder="Enter Age" class="form-control bg-transparent border-0 border-bottom rounded-0 text-white">
+                        <div class="alert" id="ageAlert">
+                            entre valid Age
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <input id="uPassword" type="password" placeholder="Enter Password" class="form-control bg-transparent border-0 border-bottom rounded-0 text-white">
+                        <div class="alert" id="passwordAlert">
+                            entre valid password *Minimum eight characters, at least one letter and one number:*
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <input id="uRPassword" type="password" placeholder="REnter Password" class="form-control bg-transparent border-0 border-bottom rounded-0 text-white">
+                        <div class="alert" id="rPasswordAlert">
+                            entre valid Repassword
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <button class="btn" disabled id="submit">Submit</button>
+        </div>
+    </section>
+
+    <div class="sidebar vh-100 d-flex">
+        <div class="d-flex flex-column justify-content-between">
+            <ul class="anchors list-unstyled p-5 ">
+                <li class="item1 "><a href="#" class="text-decoration-none sideLinks animate__animated animate__zoomInDown" data="sda" id="dsa">Now playing</a></li>
+                <li class="item2"><a href="#" class="text-decoration-none sideLinks">Popular</a></li>
+                <li class="item3"><a href="#" class="text-decoration-none sideLinks">Top Rated</a></li>
+                <li class="item4"><a href="#" class="text-decoration-none sideLinks">Trending</a></li>
+                <li class="item5"><a href="#" class="text-decoration-none sideLinks">Upcoming</a></li>
+                <li class="item6"><a href="#contact" class="text-decoration-none ">Contact US</a></li>
+            </ul>
+            <div class="p-5">
+                <ul class="socials list-unstyled d-flex justify-content-start">
+                    <li><a href="#" class="text-decoration-none"><i class="fab fa-facebook-f"></i></a></li>     
+                    <li><a href="#" class="text-decoration-none"><i class="fab fa-twitter"></i></a></li>     
+                    <li><a href="#" class="text-decoration-none"><i class="fas fa-globe"></i></a></li>     
+                </ul>
+                <p class="copyright">Copyright Â© 2019 All Rights Reserved.</p>
+            </div>
+        </div>
+        <div class=" right-side d-flex flex-column align-items-center justify-content-between p-2 py-4">
+            <img src="images/logo.png" class="logo" >
+            <div class="  fs-3 text-sec  " id="open"><i class="fas fa-bars"></i></div>
+            <div class="  fs-3 text-sec  " id="close"><i class="fas fa-times"></i></div>
+            <div class="language">
+                <i class="fas fa-globe"></i>
+                <i class="fas fa-share-alt mt-3"></i>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
