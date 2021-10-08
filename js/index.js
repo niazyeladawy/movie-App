@@ -2,32 +2,183 @@ const API_KEY = "api_key=37ded266a817b10c2533ed925229e1ee";
 const BASE_URL = 'https://api.themoviedb.org/3';
 let DeURL = '/discover/movie?sort_by=popularity.desc&';
 const API_URL = BASE_URL+DeURL+API_KEY;
+const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+const search_URL =BASE_URL + "/search/movie?" + API_KEY;
+const genres = [{
+    "id": 28,
+    "name": "Action"
+    },
+    {
+    "id": 12,
+    "name": "Adventure"
+    },
+    {
+    "id": 16,
+    "name": "Animation"
+    },
+    {
+    "id": 35,
+    "name": "Comedy"
+    },
+    {
+    "id": 80,
+    "name": "Crime"
+    },
+    {
+    "id": 99,
+    "name": "Documentary"
+    },
+    {
+    "id": 18,
+    "name": "Drama"
+    },
+    {
+    "id": 10751,
+    "name": "Family"
+    },
+    {
+    "id": 14,
+    "name": "Fantasy"
+    },
+    {
+    "id": 36,
+    "name": "History"
+    },
+    {
+    "id": 27,
+    "name": "Horror"
+    },
+    {
+    "id": 10402,
+    "name": "Music"
+    },
+    {
+    "id": 9648,
+    "name": "Mystery"
+    },
+    {
+    "id": 10749,
+    "name": "Romance"
+    },
+    {
+    "id": 878,
+    "name": "Science Fiction"
+    },
+    {
+    "id": 10770,
+    "name": "TV Movie"
+    },
+    {
+    "id": 53,
+    "name": "Thriller"
+    },
+    {
+    "id": 10752,
+    "name": "War"
+    },
+    {
+    "id": 37,
+    "name": "Western"
+    }]
+let selectedGenres =[];
 
 fetchUrl(API_URL);
 
-let index = 0;
+let tagsEl = document.getElementById("tags");
 
 const URLS = ["/movie/now_playing?","/discover/movie?sort_by=popularity.desc&","/movie/top_rated?","/trending/all/day?","/movie/upcoming?"]
+setGenre()
+function setGenre(){
+    tagsEl.innerHTML ='';
+    genres.forEach( genre =>{
+        const t = document.createElement("div");
+        t.classList.add('tag','p-2','px-4','mx-2' ,'mb-3');
+        t.id = genre.id;
+        t.innerText = genre.name;
+        t.addEventListener("click",function(){
+            if(selectedGenres.length == 0){
+                selectedGenres.push(genre.id);
+            }
+            else{
+                if(selectedGenres.includes(genre.id)){
+                    selectedGenres.forEach((id,idx) =>{
+                        if(id == genre.id){
+                            selectedGenres.splice(idx,1);
+                        }
+                    })
+                }
+                else{
+                    selectedGenres.push(genre.id);
+                }
+            }
+            console.log(selectedGenres);
+            fetchUrl(API_URL + '&with_genres='+encodeURI(selectedGenres.join(",")));
+            highlightSelection();
+        })
+        tagsEl.append(t)
+    })
+    
+}
+
+function highlightSelection(){
+    let tags = document.querySelectorAll(".tag");
+    tags.forEach(tag =>{
+        tag.classList.remove("highlight");
+    })
+    clearBtn();
+    if(selectedGenres.length != 0){
+        selectedGenres.forEach(id =>{
+            let highlightedTag = document.getElementById(id);
+            highlightedTag.classList.add("highlight");
+        })
+    }
+}
+
+function clearBtn(){
+    let clearBtn = document.getElementById("clear");
+    if(clearBtn){
+        clearBtn.classList.add("highlight");
+    }
+    else{
+        let clear = document.createElement("div");
+        clear.classList.add("tag" , 'highlight','p-2','px-4','mx-2' ,'mb-3');
+        clear.id = 'clear';
+        clear.innerText = 'Clear X';
+        clear.addEventListener("click",() =>{
+            selectedGenres = [];
+            setGenre();
+            fetchUrl(API_URL);
+        });
+        tagsEl.append(clear);
+    }
+    
+}
 
 async function fetchUrl(URL){
     let result =await fetch(URL);
     result = await result.json();
     console.log(result);
-    displayPopular(result.results)
+    if(result.results != 0){
+        displayPopular(result.results);
+    }
+    else{
+        $('#movies').html(`<h2 class="text-center text-white">No movies found</h2>`);
+    }
+    
 }
 
 function displayPopular(data){
     var temp =''
     for(let i =0; i<data.length ; i++){
         temp += `
-            <div class="col-md-4 mb-4">
+            <div class="col-md-3 mb-4">
                 <div class="post overflow-hidden position-relative">
-                    <img src="https://image.tmdb.org/t/p/original${data[i].poster_path}" class="w-100" alt="">
+                    <img src="${data[i].poster_path? IMG_URL + data[i].poster_path:"https://via.placeholder.com/500x750"}" class="w-100" alt="">
                     <div class="post-overlay position-absolute   start-0 w-100 h-100 d-flex align-items-center text-center">
                        <div>
                         <h3>${data[i].original_title}</h3>
                         <p>${data[i].overview}</p>
-                        <p id="rate">rate: ${data[i].vote_average}</p>
+                        <p id="rate" class="${getColor(data[i].vote_average)}">rate: ${data[i].vote_average}</p>
                         <p id="date">${data[i].release_date}</p>
                        </div>
                     </div>
@@ -38,6 +189,21 @@ function displayPopular(data){
 
     $('#movies').html(temp);
 }
+
+function getColor(rate){
+    if(rate >8){
+        return "green"
+    }
+    else if (rate >= 5){
+        return "orange"
+    }
+    else{
+        return "red"
+    }
+}
+
+
+
 
 $("#open").click(function(){
     $(".sidebar").animate({left:'0'},500);
@@ -84,7 +250,15 @@ for(let i=0;i<sideLinks.length ; i++){
 let searchWord = document.getElementById("searchWord");
 searchWord.addEventListener("keyup",function(e){
     let searchWordValue  = searchWord.value;
-    fetchUrl(`https://api.themoviedb.org/3/search/movie?api_key=37ded266a817b10c2533ed925229e1ee&language=en-US&query=${searchWordValue}&page=1&include_adult=false`);
+    selectedGenres = [];
+    setGenre();
+    if(searchWordValue){
+        fetchUrl(`${search_URL}&query=${searchWordValue}`);
+    }
+    else{
+        fetchUrl(API_URL);
+    }
+    
 
 })
 
